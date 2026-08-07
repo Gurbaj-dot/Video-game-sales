@@ -1,0 +1,64 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load and prepare data
+df = pd.read_csv("vgchartz-2024.csv")
+df['release_date'] = pd.to_datetime(df['release_date'], errors='coerce')
+df['Year'] = df['release_date'].dt.year
+
+# Remove invalid years and missing sales
+df = df.dropna(subset=['Year','total_sales'])
+df = df[(df['Year'] >= 1980) & (df['Year'] <= 2024)]
+
+# Calculate total sales & number of releases per year
+yearly = df.groupby('Year').agg({
+    'total_sales': ['sum', 'count']
+}).reset_index()
+yearly.columns = ['Year', 'Total_Sales_M', 'Number_of_Games']
+
+# Calculate year-over-year growth %
+yearly['Sales_Growth_%'] = yearly['Total_Sales_M'].pct_change() * 100
+
+# Show peak and recent years
+peak_year = yearly.loc[yearly['Total_Sales_M'].idxmax()]
+recent = yearly.sort_values('Year', ascending=False).head(5)
+
+print(f"📊 PEAK YEAR: {peak_year['Year']} — {peak_year['Total_Sales_M']:.1f} million sales")
+print("\n📅 LAST 5 YEARS:")
+display(recent.round(1))
+
+# --------------------------
+# CHART 1: Total Sales by Year
+# --------------------------
+plt.figure(figsize=(14,7))
+sns.lineplot(data=yearly, x='Year', y='Total_Sales_M', marker='o', color='crimson', linewidth=3)
+plt.title('🎮 Global Video Game Sales Over Time', fontsize=18, pad=20)
+plt.xlabel('Release Year', fontsize=13)
+plt.ylabel('Total Sales (Millions of Units)', fontsize=13)
+plt.grid(True, alpha=0.3)
+plt.axvline(x=peak_year['Year'], color='green', linestyle='--', alpha=0.7, label=f'Peak: {peak_year["Year"]}')
+plt.legend(fontsize=12)
+plt.tight_layout()
+plt.show()
+
+# --------------------------
+# CHART 2: Sales + Releases (Dual Axis)
+# --------------------------
+fig, ax1 = plt.subplots(figsize=(14,7))
+
+color1 = 'tab:blue'
+ax1.set_xlabel('Year', fontsize=13)
+ax1.set_ylabel('Total Sales (M)', color=color1, fontsize=13)
+ax1.plot(yearly['Year'], yearly['Total_Sales_M'], color=color1, linewidth=3, label='Total Sales')
+ax1.tick_params(axis='y', labelcolor=color1)
+
+ax2 = ax1.twinx()
+color2 = 'tab:orange'
+ax2.set_ylabel('Number of Games Released', color=color2, fontsize=13)
+ax2.plot(yearly['Year'], yearly['Number_of_Games'], color=color2, linewidth=2, linestyle='--', label='Games Released')
+ax2.tick_params(axis='y', labelcolor=color2)
+
+
+
+
