@@ -1,0 +1,572 @@
+import pandas as pd
+import numpy as np
+
+# Load and prepare data
+df = pd.read_csv("/content/vgchartz-2024[1].csv")
+
+# Drop rows missing key regional data
+df = df.dropna(subset=['title','na_sales','jp_sales','pal_sales','total_sales'])
+
+# Calculate percentage share per region
+df['na_pct'] = df['na_sales'] / df['total_sales'] * 100
+df['jp_pct'] = df['jp_sales'] / df['total_sales'] * 100
+df['pal_pct'] = df['pal_sales'] / df['total_sales'] * 100
+df['other_pct'] = df['other_sales'] / df['total_sales'] * 100
+
+# Only look at meaningful games (at least 1M sales)
+meaningful = df[df['total_sales'] >= 1.0].copy()
+
+# ----------------------------------------------------------------
+# PATTERN 1: HUGE in North America, FLOP in Japan
+# ----------------------------------------------------------------
+us_hit_jp_flop = meaningful[
+    (meaningful['na_pct'] >= 60) &
+    (meaningful['jp_pct'] <= 5)
+].sort_values('total_sales', ascending=False)
+
+# ----------------------------------------------------------------
+# PATTERN 2: HUGE in Japan, FLOP in North America
+# ----------------------------------------------------------------
+jp_hit_us_flop = meaningful[
+    (meaningful['jp_pct'] >= 40) &
+    (meaningful['na_pct'] <= 20)
+].sort_values('jp_sales', ascending=False)
+
+# ----------------------------------------------------------------
+# PATTERN 3: HUGE in Europe/PAL, FLOP in Japan
+# ----------------------------------------------------------------
+eu_hit_jp_flop = meaningful[
+    (meaningful['pal_pct'] >= 50) &
+    (meaningful['jp_pct'] <= 5)
+].sort_values('total_sales', ascending=False)
+
+# ----------------------------------------------------------------
+# Show results
+# ----------------------------------------------------------------
+def show_results(data, title):
+    print(f"\n{'='*70}")
+    print(f"  {title}")
+    print(f"{'='*70}")
+    display(data[['title','console','total_sales','na_pct','jp_pct','pal_pct']].round(1).head(15))
+
+show_results(us_hit_jp_flop, "🏆 HUGE in NORTH AMERICA — FLOP in JAPAN")
+show_results(jp_hit_us_flop, "🇯🇵 HUGE in JAPAN — FLOP in NORTH AMERICA")
+show_results(eu_hit_jp_flop, "🇪🇺 HUGE in EUROPE — FLOP in JAPAN")
+
+ 
+======================================================================
+  🏆 HUGE in NORTH AMERICA — FLOP in JAPAN
+======================================================================
+
+  
+    
+
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+
+  
+    
+      
+      title
+      console
+      total_sales
+      na_pct
+      jp_pct
+      pal_pct
+    
+  
+  
+    
+      5
+      Call of Duty: Modern Warfare 3
+      X360
+      14.8
+      61.2
+      0.9
+      28.9
+    
+    
+      6
+      Call of Duty: Black Ops
+      X360
+      14.7
+      66.2
+      0.7
+      25.3
+    
+    
+      10
+      Call of Duty: Modern Warfare 2
+      X360
+      13.5
+      63.1
+      0.6
+      26.8
+    
+    
+      16
+      Grand Theft Auto IV
+      X360
+      11.1
+      61.3
+      1.3
+      28.0
+    
+    
+      20
+      Call of Duty: Ghosts
+      X360
+      10.4
+      64.9
+      0.4
+      25.4
+    
+    
+      22
+      Halo: Reach
+      X360
+      10.0
+      71.0
+      0.8
+      20.2
+    
+    
+      23
+      Halo 4
+      X360
+      10.0
+      67.5
+      0.4
+      23.7
+    
+    
+      24
+      Call of Duty 4: Modern Warfare
+      X360
+      9.4
+      63.5
+      1.4
+      25.4
+    
+    
+      38
+      Call of Duty: Black Ops 3
+      XOne
+      7.4
+      62.8
+      0.3
+      27.7
+    
+    
+      39
+      Battlefield 3
+      X360
+      7.4
+      60.8
+      0.8
+      28.8
+    
+    
+      75
+      Madden NFL 2004
+      PS2
+      5.2
+      81.5
+      0.2
+      5.0
+    
+    
+      76
+      Call of Duty: Advanced Warfare
+      XOne
+      5.2
+      62.3
+      0.2
+      28.5
+    
+    
+      78
+      Battlefield 1
+      XOne
+      5.1
+      65.7
+      0.4
+      24.6
+    
+    
+      83
+      Fable III
+      X360
+      5.1
+      70.4
+      1.0
+      21.4
+    
+    
+      89
+      Tony Hawk's Pro Skater
+      PS
+      5.0
+      68.1
+      0.4
+      27.5
+    
+  
+
+
+    
+
+  
+    
+
+  
+    
+  
+    
+
+  
+   
+
+======================================================================
+  🇯🇵 HUGE in JAPAN — FLOP in NORTH AMERICA
+======================================================================
+
+  
+
+  
+    
+      
+      title
+      console
+      total_sales
+      na_pct
+      jp_pct
+      pal_pct
+    
+  
+  
+    
+      299
+      Hot Shots Golf
+      PS
+      2.8
+      10.4
+      76.3
+      7.2
+    
+    
+      349
+      Hot Shots Golf
+      PS
+      2.6
+      10.2
+      83.2
+      6.6
+    
+    
+      572
+      Hot Shots Golf 2
+      PS
+      1.9
+      13.3
+      78.7
+      6.4
+    
+    
+      506
+      Dragon Quest XI: Echoes of an Elusive Age
+      PS4
+      2.0
+      14.2
+      70.1
+      10.8
+    
+    
+      653
+      Hot Shots Golf Fore!
+      PS2
+      1.7
+      15.7
+      77.9
+      6.4
+    
+    
+      554
+      Virtua Fighter 2
+      SAT
+      1.9
+      17.6
+      67.4
+      13.5
+    
+    
+      799
+      Xevious
+      NES
+      1.5
+      11.8
+      83.6
+      3.9
+    
+    
+      366
+      Minecraft
+      PSV
+      2.5
+      8.9
+      50.6
+      29.6
+    
+    
+      1086
+      Devil Dice
+      PS
+      1.3
+      4.0
+      87.3
+      2.4
+    
+    
+      963
+      Gradius
+      NES
+      1.4
+      19.9
+      73.5
+      5.9
+    
+    
+      1134
+      Intelligent Qube
+      PS
+      1.2
+      10.7
+      82.0
+      5.7
+    
+    
+      1236
+      Mobile Suit Gundam: Federation vs. Zeon
+      PS2
+      1.1
+      10.5
+      77.2
+      8.8
+    
+    
+      1233
+      Dragon Quest VIII: Journey of the Cursed King
+      3DS
+      1.2
+      12.2
+      76.5
+      9.6
+    
+    
+      1198
+      Rage Racer
+      PS
+      1.2
+      13.7
+      70.9
+      9.4
+    
+    
+      1357
+      Virtua Fighter
+      SAT
+      1.1
+      15.9
+      72.0
+      11.2
+    
+  
+
+
+ 
+    
+  
+
+
+    
+  
+
+======================================================================
+  🇪🇺 HUGE in EUROPE — FLOP in JAPAN
+======================================================================
+
+  
+    
+
+
+  
+    
+      
+      title
+      console
+      total_sales
+      na_pct
+      jp_pct
+      pal_pct
+    
+  
+  
+    
+      1
+      Grand Theft Auto V
+      PS4
+      19.4
+      31.3
+      3.1
+      50.1
+    
+    
+      15
+      FIFA 18
+      PS4
+      11.8
+      10.8
+      1.3
+      73.2
+    
+    
+      17
+      FIFA 17
+      PS4
+      10.9
+      11.5
+      1.1
+      72.7
+    
+    
+      26
+      FIFA 19
+      PS4
+      9.2
+      9.2
+      1.1
+      75.1
+    
+    
+      31
+      FIFA 16
+      PS4
+      8.2
+      14.0
+      0.9
+      70.2
+    
+    
+      33
+      FIFA 13
+      PS3
+      8.0
+      13.4
+      1.6
+      64.0
+    
+    
+      40
+      Battlefield 1
+      PS4
+      7.3
+      30.3
+      4.0
+      50.3
+    
+    
+      48
+      FIFA Soccer 12
+      PS3
+      6.6
+      12.6
+      1.7
+      65.1
+    
+    
+      49
+      FIFA 14
+      PS3
+      6.6
+      12.0
+      1.1
+      72.2
+    
+    
+      55
+      FIFA 15
+      PS4
+      6.3
+      13.1
+      0.8
+      71.0
+    
+    
+      81
+      FIFA 13
+      X360
+      5.1
+      21.5
+      0.6
+      68.3
+    
+    
+      85
+      FIFA Soccer 11
+      PS3
+      5.1
+      12.0
+      1.2
+      64.6
+    
+    
+      97
+      Crash Bandicoot N. Sane Trilogy
+      PS4
+      4.8
+      22.6
+      1.4
+      60.5
+    
+    
+      109
+      FIFA 15
+      PS3
+      4.6
+      12.9
+      0.9
+      71.3
+    
+    
+      131
+      FIFA Soccer 06
+      PS2
+      4.2
+      18.5
+      1.0
+      60.6
+    
+  
+
+
+    
+
+  
+    
+
+  
+
+
+
+    
+  
