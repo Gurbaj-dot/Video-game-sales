@@ -1,0 +1,75 @@
+plt.figure(figsize=(12,7))
+sns.barplot(data=genre_sales, x='Total_Sales', y='Genre', palette='coolwarm')
+plt.title('🎮 Total Global Sales by Game Genre', fontsize=16, pad=20)
+plt.xlabel('Total Sales (Millions)', fontsize=12)
+plt.ylabel('Game Genre', fontsize=12)
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(12,6))
+sns.lineplot(data=yearly_sales, x='Year', y='total_sales', color='darkblue', linewidth=3)
+plt.title('📈 Video Game Sales Trend Over Time', fontsize=16, pad=20)
+plt.xlabel('Year', fontsize=12)
+plt.ylabel('Total Sales (Millions)', fontsize=12)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+fig, ax = plt.subplots(figsize=(8,8))
+colors = sns.color_palette('Set2')
+ax.pie(regional_totals['Sales'], labels=regional_totals['Region'],
+       autopct='%1.1f%%', colors=colors, shadow=True, startangle=90)
+ax.set_title('🌍 Sales Distribution by Region', fontsize=16, pad=20)
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(12,6))
+sns.barplot(data=console_sales, x='Total_Sales', y='Console', palette='magma')
+plt.title('💻 Top 15 Game Consoles by Total Sales', fontsize=16, pad=20)
+plt.xlabel('Total Sales (Millions)', fontsize=12)
+plt.ylabel('Console', fontsize=12)
+plt.tight_layout()
+plt.show()
+
+
+# Create 4 interactive charts in one dashboard view
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+# Create figure with 2 rows × 2 columns
+fig = make_subplots(
+    rows=2, cols=2,
+    specs=[[{}, {}], [{}, {"type": "domain"}]], # Specify 'domain' for the pie chart subplot
+    subplot_titles=(
+        "Sales by Genre",
+        "Sales Trend Over Years",
+        "Top Consoles",
+        "Regional Sales Split"
+    )
+)
+
+# Chart 1: Genre Sales
+fig1 = px.bar(genre_sales, x='Total_Sales', y='Genre', orientation='h', color='Genre')
+for trace in fig1.data:
+    fig.add_trace(trace, row=1, col=1)
+
+# Chart 2: Yearly Trend
+fig2 = px.line(yearly_sales, x='Year', y='total_sales')
+for trace in fig2.data:
+    fig.add_trace(trace, row=1, col=2)
+
+# Chart 3: Top Consoles
+fig3 = px.bar(console_sales, x='Total_Sales', y='Console', orientation='h', color='Console')
+for trace in fig3.data:
+    fig.add_trace(trace, row=2, col=1)
+
+# Chart 4: Regional Pie
+fig4 = px.pie(regional_totals, values='Sales', names='Region')
+for trace in fig4.data:
+    fig.add_trace(trace, row=2, col=2)
+
+# Layout
+fig.update_layout(height=900, width=1200, title_text="🎮 Video Game Sales Dashboard", showlegend=False)
+fig.show()
+
+ 
