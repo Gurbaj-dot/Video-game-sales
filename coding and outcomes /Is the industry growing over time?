@@ -59,6 +59,12 @@ ax2.set_ylabel('Number of Games Released', color=color2, fontsize=13)
 ax2.plot(yearly['Year'], yearly['Number_of_Games'], color=color2, linewidth=2, linestyle='--', label='Games Released')
 ax2.tick_params(axis='y', labelcolor=color2)
 
+Period	Trend	What Happened
+1980–1995	📈 Slow Steady Growth	Early consoles (NES, SNES, PS1) — market building
+1996–2008	🚀 EXPLOSIVE GROWTH	PS2 → PS3/Xbox 360 era — sales multiplied 10x!
+2008–2011	🏆 ALL-TIME PEAK	~300–350 million units/year — PS3, Xbox 360, Wii boom
+2012–2018	📉 DECLINING	Physical sales dropping — shift to digital downloads
+
 
 
 
