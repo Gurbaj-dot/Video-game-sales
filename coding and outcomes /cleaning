@@ -1,0 +1,50 @@
+# Make a clean copy
+data = df.copy()
+
+# Convert release date to year
+data['release_date'] = pd.to_datetime(data['release_date'], errors='coerce')
+data['Year'] = data['release_date'].dt.year
+
+# Fill missing critic scores with average (optional)
+data['critic_score'] = data['critic_score'].fillna(data['critic_score'].mean())
+
+# Drop rows missing sales or key info
+data = data.dropna(subset=['title','console','genre','total_sales'])
+
+# Create decade column for trends
+data['Decade'] = (data['Year'] // 10) * 10
+
+# Show cleaned info
+print("✅ Data cleaned!")
+print(f"Cleaned rows: {data.shape[0]}")
+print(f"Year range: {data['Year'].min():.0f} to {data['Year'].max():.0f}")
+
+data.info()
+
+✅ Data cleaned!
+Cleaned rows: 18922
+Year range: 1977 to 2020
+<class 'pandas.core.frame.DataFrame'>
+Index: 18922 entries, 0 to 18921
+Data columns (total 16 columns):
+ #   Column        Non-Null Count  Dtype         
+---  ------        --------------  -----         
+ 0   img           18922 non-null  object        
+ 1   title         18922 non-null  object        
+ 2   console       18922 non-null  object        
+ 3   genre         18922 non-null  object        
+ 4   publisher     18922 non-null  object        
+ 5   developer     18918 non-null  object        
+ 6   critic_score  18922 non-null  float64       
+ 7   total_sales   18922 non-null  float64       
+ 8   na_sales      12637 non-null  float64       
+ 9   jp_sales      6726 non-null   float64       
+ 10  pal_sales     12824 non-null  float64       
+ 11  other_sales   15128 non-null  float64       
+ 12  release_date  18832 non-null  datetime64[ns]
+ 13  last_update   4019 non-null   object        
+ 14  Year          18832 non-null  float64       
+ 15  Decade        18832 non-null  float64       
+dtypes: datetime64[ns](1), float64(8), object(7)
+memory usage: 2.5+ MB
+
