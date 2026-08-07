@@ -1,0 +1,233 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import plotly.figure_factory as ff
+
+# Set style for charts
+plt.style.use('seaborn-v0_8')
+sns.set_palette("viridis")
+
+# Load dataset — save your CSV file as "vgchartz-2024.csv" in the same folder
+df = pd.read_csv("/content/vgchartz-2024[1].csv")
+
+# Show basic info
+print("✅ Dataset loaded!")
+print(f"Rows: {df.shape[0]} | Columns: {df.shape[1]}")
+print("\nColumns in dataset:")
+print(df.columns.tolist())
+
+# Show first 5 rows
+df.head()
+
+ ✅ Dataset loaded!
+Rows: 64016 | Columns: 14
+
+Columns in dataset:
+['img', 'title', 'console', 'genre', 'publisher', 'developer', 'critic_score', 'total_sales', 'na_sales', 'jp_sales', 'pal_sales', 'other_sales', 'release_date', 'last_update']
+
+  
+    
+
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+
+  
+    
+      
+      img
+      title
+      console
+      genre
+      publisher
+      developer
+      critic_score
+      total_sales
+      na_sales
+      jp_sales
+      pal_sales
+      other_sales
+      release_date
+      last_update
+    
+  
+  
+    
+      0
+      /games/boxart/full_6510540AmericaFrontccc.jpg
+      Grand Theft Auto V
+      PS3
+      Action
+      Rockstar Games
+      Rockstar North
+      9.4
+      20.32
+      6.37
+      0.99
+      9.85
+      3.12
+      2013-09-17
+      NaN
+    
+    
+      1
+      /games/boxart/full_5563178AmericaFrontccc.jpg
+      Grand Theft Auto V
+      PS4
+      Action
+      Rockstar Games
+      Rockstar North
+      9.7
+      19.39
+      6.06
+      0.60
+      9.71
+      3.02
+      2014-11-18
+      2018-01-03
+    
+    
+      2
+      /games/boxart/827563ccc.jpg
+      Grand Theft Auto: Vice City
+      PS2
+      Action
+      Rockstar Games
+      Rockstar North
+      9.6
+      16.15
+      8.41
+      0.47
+      5.49
+      1.78
+      2002-10-28
+      NaN
+    
+    
+      3
+      /games/boxart/full_9218923AmericaFrontccc.jpg
+      Grand Theft Auto V
+      X360
+      Action
+      Rockstar Games
+      Rockstar North
+      NaN
+      15.86
+      9.06
+      0.06
+      5.33
+      1.42
+      2013-09-17
+      NaN
+    
+    
+      4
+      /games/boxart/full_4990510AmericaFrontccc.jpg
+      Call of Duty: Black Ops 3
+      PS4
+      Shooter
+      Activision
+      Treyarch
+      8.1
+      15.09
+      6.18
+      0.41
+      6.05
+      2.44
+      2015-11-06
+      2018-01-14
+    
+  
+
+
+    
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  
+
+    
+      const buttonEl =
+        document.querySelector('#df-1440bcda-a46f-4d9d-b306-151e9cdc6b9b button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-1440bcda-a46f-4d9d-b306-151e9cdc6b9b');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    
+  
+
+
+    
+  
