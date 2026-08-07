@@ -1,0 +1,906 @@
+# 1. Total Sales by Genre
+genre_sales = data.groupby('genre')['total_sales'].sum().sort_values(ascending=False).reset_index()
+genre_sales.columns = ['Genre', 'Total_Sales']
+
+# 2. Top 10 Best-Selling Games Ever
+top_games = data.sort_values('total_sales', ascending=False).head(10)
+
+# 3. Sales Trend by Year
+yearly_sales = data.groupby('Year')['total_sales'].sum().reset_index()
+
+# 4. Sales by Console / Platform
+console_sales = data.groupby('console')['total_sales'].sum().sort_values(ascending=False).head(15).reset_index()
+console_sales.columns = ['Console', 'Total_Sales']
+
+# 5. Regional Sales Breakdown
+regional_totals = pd.Series({
+    'North America': data['na_sales'].sum(),
+    'Japan': data['jp_sales'].sum(),
+    'Europe / PAL': data['pal_sales'].sum(),
+    'Other': data['other_sales'].sum()
+}).reset_index()
+regional_totals.columns = ['Region', 'Sales']
+
+# 6. Sales by Publisher (Top 10)
+publisher_sales = data.groupby('publisher')['total_sales'].sum().sort_values(ascending=False).head(10).reset_index()
+publisher_sales.columns = ['Publisher', 'Total_Sales']
+
+# Show a summary
+print("📊 Top 5 Genres:")
+display(genre_sales.head())
+print("\n📊 Top 5 Games:")
+display(top_games[['title','console','total_sales']].head())
+print("\n📊 Yearly Sales Trend:")
+display(yearly_sales.head())
+print("\n📊 Top 5 Publishers:")
+display(publisher_sales.head())
+print("\n📊 Console Sales:")
+display(console_sales.head())
+print("\n📊 Regional Sales Breakdown:")
+display(regional_totals)
+
+ 📊 Top 5 Genres:
+
+  
+    
+
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+
+  
+    
+      
+      Genre
+      Total_Sales
+    
+  
+  
+    
+      0
+      Sports
+      1187.51
+    
+    
+      1
+      Action
+      1125.89
+    
+    
+      2
+      Shooter
+      995.50
+    
+    
+      3
+      Misc
+      557.79
+    
+    
+      4
+      Racing
+      525.75
+    
+  
+
+
+    
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  
+
+    
+      const buttonEl =
+        document.querySelector('#df-3939d73e-28a3-40f5-a927-cc4d58605dd5 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-3939d73e-28a3-40f5-a927-cc4d58605dd5');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    
+  
+
+
+    
+  
+
+📊 Top 5 Games:
+
+  
+    
+
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+
+  
+    
+      
+      title
+      console
+      total_sales
+    
+  
+  
+    
+      0
+      Grand Theft Auto V
+      PS3
+      20.32
+    
+    
+      1
+      Grand Theft Auto V
+      PS4
+      19.39
+    
+    
+      2
+      Grand Theft Auto: Vice City
+      PS2
+      16.15
+    
+    
+      3
+      Grand Theft Auto V
+      X360
+      15.86
+    
+    
+      4
+      Call of Duty: Black Ops 3
+      PS4
+      15.09
+    
+  
+
+
+    
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  
+
+    
+      const buttonEl =
+        document.querySelector('#df-91b8a3ce-6e98-4737-bff6-9a786a2eb2be button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-91b8a3ce-6e98-4737-bff6-9a786a2eb2be');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    
+  
+
+
+    
+  
+
+📊 Yearly Sales Trend:
+
+  
+    
+
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+
+  
+    
+      
+      Year
+      total_sales
+    
+  
+  
+    
+      0
+      1977.0
+      2.50
+    
+    
+      1
+      1978.0
+      2.36
+    
+    
+      2
+      1979.0
+      0.31
+    
+    
+      3
+      1980.0
+      2.26
+    
+    
+      4
+      1981.0
+      7.73
+    
+  
+
+
+    
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  
+
+    
+      const buttonEl =
+        document.querySelector('#df-3a733ca2-98f4-45f6-bda4-7f9d95000c15 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-3a733ca2-98f4-45f6-bda4-7f9d95000c15');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    
+  
+
+
+    
+  
+
+📊 Top 5 Publishers:
+
+  
+    
+
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+
+  
+    
+      
+      Publisher
+      Total_Sales
+    
+  
+  
+    
+      0
+      Activision
+      722.77
+    
+    
+      1
+      Electronic Arts
+      644.13
+    
+    
+      2
+      EA Sports
+      485.66
+    
+    
+      3
+      Ubisoft
+      462.57
+    
+    
+      4
+      THQ
+      320.89
+    
+  
+
+
+    
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  
+
+    
+      const buttonEl =
+        document.querySelector('#df-2826ca4b-5be6-48aa-8fc7-be704b5aa955 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-2826ca4b-5be6-48aa-8fc7-be704b5aa955');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    
+  
+
+
+    
+  
+
+📊 Console Sales:
+
+  
+    
+
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+
+  
+    
+      
+      Console
+      Total_Sales
+    
+  
+  
+    
+      0
+      PS2
+      1027.76
+    
+    
+      1
+      X360
+      859.79
+    
+    
+      2
+      PS3
+      839.70
+    
+    
+      3
+      PS
+      546.25
+    
+    
+      4
+      PS4
+      539.92
+    
+  
+
+
+    
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  
+
+    
+      const buttonEl =
+        document.querySelector('#df-43d57e25-945b-4011-b7f9-395aadd101a3 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-43d57e25-945b-4011-b7f9-395aadd101a3');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    
+  
+
+
+    
+  
+
+📊 Regional Sales Breakdown:
+
+  
+    
+
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+
+  
+    
+      
+      Region
+      Sales
+    
+  
+  
+    
+      0
+      North America
+      3345.52
+    
+    
+      1
+      Japan
+      687.94
+    
+    
+      2
+      Europe / PAL
+      1916.83
+    
+    
+      3
+      Other
+      651.12
+    
+  
+
+
+    
+
+  
+    
+
+  
+    
+  
+    
+
+  
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  
+
+    
+      const buttonEl =
+        document.querySelector('#df-a94e9ad0-a1f5-4e9f-9e93-76c620831d73 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-a94e9ad0-a1f5-4e9f-9e93-76c620831d73');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    
+  
+
+
+  
+    
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    
+    
+
+  
+    
+  
+    
+    
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_ff02a0c1-b054-4148-ab38-ba7167945e64 button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('regional_totals');
+      }
+      })();
+    
+  
+
+    
+  
+
+
+ 
