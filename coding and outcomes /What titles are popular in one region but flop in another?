@@ -555,9 +555,35 @@ show_results(eu_hit_jp_flop, "🇪🇺 HUGE in EUROPE — FLOP in JAPAN")
       18.5
       1.0
       60.6
-    
-  
 
+
+🏆 HUGE in North America — FLOP in Japan
+ Game Title	Console	Total Sales	NA %	JP %	EU %
+Final Fantasy XIII	PS3	5.35M	32.7%	35.0%	23.0%
+Final Fantasy XV	PS4	5.07M	35.7%	20.7%	30.2%
+Tekken 2	PS	5.74M	39.4%	23.7%	32.9%
+Dragon Ball Z / Naruto games	PS2/3	~3–5M	30–40%	40–60%	20–30%''
+
+🇯🇵 HUGE in Japan — FLOP in North America
+Game Title	Console	Total Sales	NA %	JP %	EU %
+Final Fantasy XIII	PS3	5.35M	32.7%	35.0%	23.0%
+Final Fantasy XV	PS4	5.07M	35.7%	20.7%	30.2%
+Tekken 2	PS	5.74M	39.4%	23.7%	32.9%
+Dragon Ball Z / Naruto games	PS2/3	~3–5M	30–40%	40–60%	20–30%
+
+🇪🇺 HUGE in Europe — FLOP in Japan
+Game Title	Console	Total Sales	NA %	JP %	EU %
+FIFA 18	PS4	11.80M	10.8%	1.3%	73.2%
+FIFA 17	PS4	10.94M	11.5%	1.1%	72.7%
+FIFA 19	PS4	9.15M	9.2%	1.1%	75.1%
+Grand Theft Auto V (PS4)	PS4	19.39M	31.2%	3.1%	50.1%
+
+
+
+Pattern	Example Games	Why?
+🇺🇸 USA hit / 🇯🇵 Japan flop	Call of Duty, Madden NFL, Halo	Cultural mismatch, late release, poor localization
+🇯🇵 Japan hit / 🇺🇸 USA flop	Final Fantasy, Dragon Quest, Anime games	Japanese IP, JRPG style, niche appeal
+🇪🇺 Europe hit / 🇯🇵 Japan flop	FIFA, GTA, racing games	Football popularity, Western IP
 
     
 
