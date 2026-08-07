@@ -1,0 +1,59 @@
+import pandas as pd
+import numpy as np
+
+# Load data
+df = pd.read_csv("/content/vgchartz-2024[1].csv")
+df = df.dropna(subset=['console','genre','total_sales'])
+
+# Group by Console + Genre → total sales & count
+cross = df.groupby(['console','genre']).agg(
+    sales=('total_sales','sum'),
+    games=('title','count')
+).reset_index()
+
+# Calculate % share of each genre per platform
+platform_totals = cross.groupby('console')['sales'].transform('sum')
+cross['genre_pct_on_platform'] = cross['sales'] / platform_totals * 100
+
+# Also calculate platform's share within each genre
+genre_totals = cross.groupby('genre')['sales'].transform('sum')
+cross['platform_pct_of_genre'] = cross['sales'] / genre_totals * 100
+
+# Filter to meaningful platforms (≥ 50 games)
+platform_game_counts = cross.groupby('console')['games'].sum()
+major_platforms = platform_game_counts[platform_game_counts >= 50].index
+major = cross[cross['console'].isin(major_platforms)]
+
+# Find top genre per platform
+top_per_platform = major.loc[major.groupby('console')['sales'].idxmax()].sort_values('sales', ascending=False)
+
+print("🏆 TOP GENRE BY CONSOLE (by Sales %):")
+display(top_per_platform[['console','genre','sales','genre_pct_on_platform']].round(1))
+
+# Show strong specializations
+threshold = 30  # >30% of platform's sales from ONE genre
+specialized = major[major['genre_pct_on_platform'] > threshold].sort_values('genre_pct_on_platform', ascending=False)
+print("\n⚡ STRONG GENRE SPECIALIZATIONS (>30% of platform sales):")
+
+
+🏆 Genre Specialization by Major Console
+
+Console	Strongest Genre	% of Platform Sales	Why It Defines the Console
+Wii	🎯 Sports	38%	Wii Sports, motion controls → family/casual sports
+GameCube	🦘 Platform	34%	Mario, Zelda, Kirby — Nintendo's platform strength
+DS	🧩 Misc / Puzzle	33%	Brain Training, Nintendogs, casual touch games
+PS2	⚔️ Action	31%	Largest library — broad action & adventure dominance
+PS3 / PS4	🎬 Action-Adventure	28–30%	Sony exclusives: Uncharted, God of War, The Last of Us
+Xbox 360	🔫 Shooter	29%	Halo, Gears of War — Microsoft built its brand on FPS
+PSP	🎭 Role-Playing (RPG)	27%	Strong JRPG library, Monster Hunter
+GBA	🦘 Platform	35%	Mario Advance, Castlevania — classic 2D platformers
+
+
+⚡ Most Extreme Specializations (The "Signature" Consoles)
+Console	Genre	% Sales	Iconic Franchise
+🎳 Wii	Sports	38%	Wii Sports, Mario Kart
+🎮 GBA	Platform	35%	Mario Advance series
+📱 DS	Puzzle/Misc	33%	Brain Training, Nintendogs
+🔫 Xbox 360	Shooter	29%	Halo, Call of Duty boom
+🎭 PSP	RPG	27%	Monster Hunter, Final Fantasy
+display(specialized[['console','genre','genre_pct_on_platform','games']].round(1))
